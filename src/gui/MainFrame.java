@@ -4,8 +4,6 @@ package gui;
 import javax.swing.*;
 import java.awt.event.*;
 
-import static gui.Panel.PERIOD;
-
 /**
  * Created by colander on 6/5/17.
  */

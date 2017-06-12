@@ -23,11 +23,19 @@ public class Game {
     }
 
     private int[][] directions = {
-            {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}
+            {-1, -1},
+            {-1, 0},
+            {-1, 1},
+            {0, -1},
+            {0, 1},
+            {1, -1},
+            {1, 0},
+            {1, 1}
     };
 
     public void step() {
         //leaves out the edges -> they can never become active
+        boolean[][] newMap = new boolean[map.length][map[0].length];
         for (int i = 1; i < map.length - 1; i++) {
             for (int j = 1; j < map[0].length - 1; j++) {
                 int sum = 0;
@@ -35,19 +43,26 @@ public class Game {
                     sum += map[i + direction[0]][j + direction[1]] ? 1 : 0;
                 }
 
+
                 switch (sum) {
                     case 0:
+                        newMap[i][j] = false;
+                        break;
                     case 1:
-                        map[i][j] = false;
+                        newMap[i][j] = false;
+                        break;
+                    case 2:
+                        newMap[i][j] = map[i][j];
                         break;
                     case 3:
-                        map[i][j] = true;
+                        newMap[i][j] = true;
                         break;
                     default:
-                        if (sum != 2) map[i][j] = false;
+                        newMap[i][j] = false;
                 }
             }
         }
+        map = newMap;
     }
 
 
