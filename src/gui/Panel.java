@@ -4,8 +4,6 @@ import logic.Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
@@ -13,6 +11,7 @@ import java.util.Timer;
 
 /**
  * Created by colander on 6/5/17.
+ * The main JPanel class, which draws the game grid and allows the user to interact with it by clicking.
  */
 public class Panel extends JPanel {
 
@@ -22,27 +21,32 @@ public class Panel extends JPanel {
     private final static Color DEAD_COLOR = Color.BLACK;
     private final static Color ALIVE_COLOR = Color.GREEN;
 
-    public final static int PERIOD = 300;
+    private final static int PERIOD = 300;
 
-    boolean running = true;
+    private boolean running = true;
 
-    Timer timer;
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            if (running) {
-                Panel.this.game.step();
-            }
-            Panel.this.repaint();
-        }
-    };
+    boolean isRunning() {
+        return running;
+    }
 
-    public Panel() {
+    void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    Panel() {
         this.game = new Game(100, 100);
 
-        this.timer = new Timer();
-
-        timer.scheduleAtFixedRate(task, PERIOD, PERIOD);
+        Timer timer = new Timer();
+        TimerTask stepAndRedrawTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (running) {
+                    Panel.this.game.step();
+                }
+                Panel.this.repaint();
+            }
+        };
+        timer.scheduleAtFixedRate(stepAndRedrawTask, PERIOD, PERIOD);
 
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -53,8 +57,6 @@ public class Panel extends JPanel {
                 game.flip(x, y);
             }
         });
-
-
     }
 
     @Override
@@ -68,4 +70,6 @@ public class Panel extends JPanel {
             }
         }
     }
+
+
 }

@@ -2,6 +2,7 @@ package logic;
 
 /**
  * Created by colander on 6/5/17.
+ * This class handles all the game logic, most importantly the stepping process.
  */
 public class Game {
 
@@ -13,7 +14,7 @@ public class Game {
     }
 
 
-    //TODO:to be removed
+    //just to display the functionality right away without having to draw
     private void baseInit() {
         this.map[10][10] = true;
         this.map[10][11] = true;
@@ -42,7 +43,6 @@ public class Game {
                 for (int[] direction : directions) {
                     sum += map[i + direction[0]][j + direction[1]] ? 1 : 0;
                 }
-
 
                 switch (sum) {
                     case 0:
